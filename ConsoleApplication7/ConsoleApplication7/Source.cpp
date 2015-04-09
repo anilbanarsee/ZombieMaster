@@ -9,8 +9,9 @@ int main()
 
 	double xspeed = 0;
 	double yspeed = 0;
-	double speed = 5;
-	double friction = 0.01;
+	double topspeed = 0.1;
+	double power = 0.05;
+	double friction = 0.03;
 	double acceleration = 0.05;
 	bool leftKeyDown = false;
 	bool rightKeyDown = false;
@@ -30,26 +31,35 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-				shape.move(-speed, 0);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-				shape.move(speed, 0);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-				shape.move(0, -speed);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-				shape.move(0, speed);
-			}
+			
+
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+			xspeed = -power;
+
+
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+			xspeed = power;
+
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+			yspeed = -power;
+
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+			yspeed = power;
 
 		}
 
-
+		
+		std::cout << xspeed << std::endl;
+		std::cout << yspeed << std::endl;
 		//std::cout << rightKeyDown << leftKeyDown;
 		//std::cout << upKeyDown << downKeyDown;
 		shape.move(xspeed, yspeed);
-
+		xspeed = 0;
+		yspeed = 0;
 
 		window.clear();
 		window.draw(shape);
