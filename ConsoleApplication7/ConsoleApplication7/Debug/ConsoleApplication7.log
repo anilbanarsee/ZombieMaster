@@ -1,9 +1,10 @@
-﻿Build started 09/04/2015 16:14:50.
+﻿Build started 09/04/2015 18:10:25.
      1>Project "C:\Users\Reetoo\Documents\GitHub\ZombieMaster\ConsoleApplication7\ConsoleApplication7\ConsoleApplication7.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\sfml\SFML\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source.cpp
          Source.cpp
-     1>c:\users\reetoo\documents\github\zombiemaster\consoleapplication7\consoleapplication7\source.cpp(60): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\reetoo\documents\github\zombiemaster\consoleapplication7\consoleapplication7\source.cpp(150): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\reetoo\documents\github\zombiemaster\consoleapplication7\consoleapplication7\source.cpp(151): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Reetoo\Documents\GitHub\ZombieMaster\ConsoleApplication7\Debug\ZombieMasterProject.exe" /INCREMENTAL /NOLOGO /LIBPATH:D:\sfml\SFML\lib "sfml-graphics.lib" "sfml-window.lib" "sfml-system.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Reetoo\Documents\GitHub\ZombieMaster\ConsoleApplication7\Debug\ZombieMasterProject.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Reetoo\Documents\GitHub\ZombieMaster\ConsoleApplication7\Debug\ZombieMasterProject.lib" /MACHINE:X86 Debug\Source.obj
          ConsoleApplication7.vcxproj -> C:\Users\Reetoo\Documents\GitHub\ZombieMaster\ConsoleApplication7\Debug\ZombieMasterProject.exe
@@ -11,4 +12,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.99
+Time Elapsed 00:00:00.78
