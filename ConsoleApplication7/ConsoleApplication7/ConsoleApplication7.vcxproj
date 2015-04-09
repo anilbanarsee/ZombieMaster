@@ -11,7 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EntityObject.cpp" />
+    <ClCompile Include="ImageFile.cpp" />
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EntityObject.h" />
+    <ClInclude Include="ImageFile.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{35DF18B8-64B4-4132-8124-C9ABF180B894}</ProjectGuid>
