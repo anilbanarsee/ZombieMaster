@@ -4,10 +4,16 @@
 #include <cmath>
  
 using sf::Vector2;
+using std::cout;
+using std::endl;
 
 bool hit(Vector2<float> v1, Vector2<float> v2, double r1, double r2){
+	
+	
+	
 	double comR = r1 + r2;
 	
+
 	double xpos1 = v1.x;
 	double xpos2 = v2.x;
 
@@ -16,6 +22,7 @@ bool hit(Vector2<float> v1, Vector2<float> v2, double r1, double r2){
 
 	double diffX = xpos1 - xpos2;
 	double diffY = ypos1 - ypos2;
+
 
 	diffX = diffX*diffX;
 	diffY = diffY*diffY;
@@ -30,141 +37,164 @@ bool hit(Vector2<float> v1, Vector2<float> v2, double r1, double r2){
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(600, 800), "SFML works!");
-	sf::CircleShape shape(20.f);
-	sf::CircleShape enemy(20.f);
 
-	double xspeed = 0;
-	double yspeed = 0;
-	double enemyPower = 0.01;
+	double player2Power = 0.1;
+	int WIDTH = 600;
+	int HEIGHT = 600;
 
-	double enemyXSpeed = enemyPower;
-	double enemyYSpeed = enemyPower;
+	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "ZombieMaster");
+	double power = 0.1;
+	double friction = 0.08;
 
-	double topspeed = 0.1;
-	double power = 0.03;
-	
-	double friction = 0.03;
-	double acceleration = 0.05;
-	bool leftKeyDown = false;
-	bool rightKeyDown = false;
-	bool upKeyDown = false;
-	bool downKeyDown = false;
+	double topSpeed = 0.5;
+	double xSpeed = 0;
+	double ySpeed = 0;
 
-	int maxspeed = 8;
+	double locX;
+	double locY;
 
-	shape.setFillColor(sf::Color::Green);
-	enemy.setFillColor(sf::Color::Red);
+	double xs = 0;
+	double ys = 0;
 
-	
-	enemy.setPosition(200, 200);
-	shape.setPosition(300, 400);
-	while (window.isOpen())
-	{
+	bool movingTowards = false;
+
+	sf::CircleShape player(10.f);
+	sf::CircleShape player2(10.f);
+
+	player2.setPosition(WIDTH / 2, HEIGHT / 2);
+	player.setPosition(300, 400);
+
+	while (window.isOpen()){
 
 		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
+		Sleep(1);
+		while (window.pollEvent(event)){
 
 			
 
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-			xspeed += -power;
+			if (event.type == sf::Event::Closed){
+				window.close();
+			}
+			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right){
+				sf::Vector2i c = sf::Mouse::getPosition(window);
+				locX = c.x;
+				locY = c.y;
+				cout << "ALERT" << endl;
+				movingTowards = true;
+				Vector2<float> f = player2.getPosition();
+				float x = f.x + player2.getRadius();
+				float y = f.y + player2.getRadius();
 
 
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-			xspeed += -power;
 
+				float diffx = locX - x;
+				float diffy = locY - y;
 
-		}
+				float t = (diffx*diffx + diffy*diffy) / player2Power;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-			xspeed += power;
+				xs = (diffx*diffx)/t;
+				if (diffx < 0){
+					xs = -xs;
+				}
+				ys = (diffy*diffy)/t;
+				if (diffy < 0){
+					ys = -ys;
+				}
 
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-			xspeed += power;
-
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-			yspeed += -power;
-
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
-			yspeed += -power;
-
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-			yspeed += power;
-
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
-			yspeed += power;
-
+			}
+		
 		}
 		
-		
-		sf::Vector2<float> c = enemy.getPosition();
-		double r = enemy.getRadius();
-		double xpos = c.x + r;
-		double ypos = c.y + r;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
 
-		if (xpos+r > 600 || xpos-r <0){
-			enemyXSpeed = -enemyXSpeed;
-		}
-		if (ypos+r > 800 || ypos-r <0){
-			enemyYSpeed = -enemyYSpeed;
-		}
-		
-		c = shape.getPosition();
-		r = shape.getRadius();
-		double xpos2 = c.x + shape.getRadius();
-	    double ypos2 = c.y + shape.getRadius();
+				xSpeed -= power;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
 
-		if (xpos2+r >= 600 && xspeed > 0){
-			xspeed = 0;
-			//std::cout << "ALERT" << std::endl;
-		}
-		if (xpos2-r <= 0 && xspeed < 0){
-			xspeed = 0;
-		}
-		if (ypos2+r >= 800 && yspeed > 0){
-			yspeed = 0;
-		}
-		if (ypos2-r <= 0 && yspeed < 0){
-			yspeed = 0;
-		}
-		//std::cout << c.x << std::endl;
-		//std::cout << xspeed << std::endl;
+				xSpeed += power;
 
-		//std::cout << xspeed << std::endl;
-		//std::cout << yspeed << std::endl;
-		//std::cout << rightKeyDown << leftKeyDown;
-		//std::cout << upKeyDown << downKeyDown;
-		shape.move(xspeed, yspeed);
-		enemy.move(enemyXSpeed, enemyYSpeed);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
 
-		if (hit(shape.getPosition(), enemy.getPosition(), shape.getRadius(), enemy.getRadius())){
-			shape.setFillColor(sf::Color::Blue);
-		}
-		else{
-			shape.setFillColor(sf::Color::Green);
-		}
+				ySpeed -= power;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
 
-		xspeed = 0;
-		yspeed = 0;
+				ySpeed += power;
+			}
+			
 
-		window.clear();
-		window.draw(shape);
-		window.draw(enemy);
-		window.display();
+			if (xSpeed >= 0){
+				xSpeed -= friction;
+				if (xSpeed < 0){
+					xSpeed = 0;
+				}
+			}
+			if (xSpeed <= 0){
+				xSpeed += friction;
+				if (xSpeed > 0){
+					xSpeed = 0;
+				}
+			}
+			if (ySpeed >= 0){
+				ySpeed -= friction;
+				if (ySpeed < 0){
+					ySpeed = 0;
+				}
+			}
+			if (ySpeed <= 0){
+				ySpeed += friction;
+				if (ySpeed > 0){
+					ySpeed = 0;
+				}
+			}
+
+			if (xSpeed >= topSpeed){
+				xSpeed = topSpeed;
+				std::cout << "ALERT" << std::endl;
+			}
+			if (xSpeed <= -topSpeed){
+				xSpeed = -topSpeed;
+			}
+			if (ySpeed >= topSpeed){
+				ySpeed = topSpeed;
+			}
+			if (ySpeed <= -topSpeed){
+				ySpeed = -topSpeed;
+			}
+			
+
+			
+
+			if (movingTowards){
+				
+				Vector2<float> c = player2.getPosition();
+				double x2 = c.x + player2.getRadius();
+				double y2 = c.y + player2.getRadius();
+				if (x2 == locX || y2 == locY){
+					xs = 0;
+					ys = 0;
+				}
+				//cout << diffx << endl;
+				//cout << diffy << endl;
+				//cout << "ALERT" << endl;
+				//movingTowards = false;
+
+				
+				
+			}
+
+
+			player.move(xSpeed, ySpeed);
+			player2.move(xs, ys);
+			//cout << movingTowards << endl;
+			
+
+			
+			window.clear();
+			window.draw(player2);
+			window.draw(player);
+			window.display();
 	}
-
 	return 0;
 }
