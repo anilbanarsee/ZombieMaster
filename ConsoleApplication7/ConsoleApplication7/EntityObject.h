@@ -1,14 +1,18 @@
+#pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include "ImageFile.h"
+#include <string>
 /*This is a EntityObject, the base class from which all other objects are derived
   It needs a position,image and collision data*/
-class EntityObject
+class EntityObject : public sf::Sprite
 {
 private:
-	int posX;
-	int posY;
+	float posX;
+	float posY;
+	sf::Texture spriteTexture;
 public:
-	EntityObject(){};
-	int getPosX(){ return posX; };
-	int getPosY(){ return posY; };
+	EntityObject(float posX, float posY,std::string spriteFileName);
+	float getPosX(){ return posX; };
+	float getPosY(){ return posY; };
 };

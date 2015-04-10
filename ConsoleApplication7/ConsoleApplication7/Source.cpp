@@ -2,6 +2,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <cmath>
+#include "EntityObject.h"
  
 using sf::Vector2;
 using std::cout;
@@ -298,6 +299,12 @@ int main()
 			}
 			window.draw(player2);
 			window.draw(player);
+
+
+			//EntityObject object(300, 300, "Data/test.png");
+			//window.draw(object);
+
+
 			window.display();
 	}
 	return 0;
