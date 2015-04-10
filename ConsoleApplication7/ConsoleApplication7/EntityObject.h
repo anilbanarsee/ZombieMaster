@@ -7,7 +7,6 @@ class EntityObject
 private:
 	int posX;
 	int posY;
-	ImageFile image;
 public:
 	EntityObject(){};
 	int getPosX(){ return posX; };
