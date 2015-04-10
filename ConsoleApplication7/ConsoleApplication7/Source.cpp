@@ -42,7 +42,7 @@ int main()
 {
 
 	double player2Power = 0.5;
-	double bulletSpeed = 1;
+	double bulletSpeed = 1.5;
 
 	int WIDTH = 600;
 	int HEIGHT = 600;
@@ -79,10 +79,10 @@ int main()
 	while (window.isOpen()){
 
 		sf::Event event;
-		Sleep(1);
+		
 		while (window.pollEvent(event)){
 
-			
+
 
 			if (event.type == sf::Event::Closed){
 				window.close();
@@ -165,7 +165,7 @@ int main()
 
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-
+				
 				xSpeed += power;
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
