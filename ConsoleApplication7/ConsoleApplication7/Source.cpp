@@ -338,8 +338,8 @@ int main()
 			window.draw(player);
 
 
-			//EntityObject object(300, 300, "Data/test.png");
-			//window.draw(object);
+			EntityObject object(300, 300, "C:/Users/Hamzah/OneDrive/ZombieMaster/ConsoleApplication7/ConsoleApplication7/Data/test.png");
+			window.draw(object);
 
 
 			window.display();
