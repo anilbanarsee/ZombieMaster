@@ -34,11 +34,15 @@ bool hit(Vector2<float> v1, Vector2<float> v2, double r1, double r2){
 	}
 	return false;
 }
-
+float length(Vector2<float> v1){
+	return sqrt((v1.x*v1.x) + (v1.y*v1.y));
+}
 int main()
 {
 
-	double player2Power = 0.1;
+	double player2Power = 0.5;
+	double bulletSpeed = 1;
+
 	int WIDTH = 600;
 	int HEIGHT = 600;
 
@@ -50,19 +54,26 @@ int main()
 	double xSpeed = 0;
 	double ySpeed = 0;
 
-	double locX;
-	double locY;
+	float locX = 0;
+	float locY = 0;
 
-	double xs = 0;
-	double ys = 0;
+	float xs = 0;
+	float ys = 0;
 
+
+	float xb = 0;
+	float yb = 0;
+
+	bool bulletOnScreen = false;
 	bool movingTowards = false;
 
 	sf::CircleShape player(10.f);
 	sf::CircleShape player2(10.f);
+	sf::CircleShape bullet(3.0f);
 
 	player2.setPosition(WIDTH / 2, HEIGHT / 2);
 	player.setPosition(300, 400);
+	
 
 	while (window.isOpen()){
 
@@ -75,22 +86,41 @@ int main()
 			if (event.type == sf::Event::Closed){
 				window.close();
 			}
+		
 			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right){
 				sf::Vector2i c = sf::Mouse::getPosition(window);
-				locX = c.x;
-				locY = c.y;
-				cout << "ALERT" << endl;
+				locX = (float) c.x;
+				locY = (float) c.y;
+
+				sf::Vector2f target(locX,locY);
+				Vector2<float> current = player2.getPosition();
+				current.x = current.x + player2.getRadius();
+				current.y = current.y + player2.getRadius();
+				Vector2<float> movement = (target - current);
+				movement = movement / length(movement);
+				movement.x = movement.x*player2Power;
+				movement.y = movement.y*player2Power;
+				xs = movement.x;
+				ys = movement.y;
 				movingTowards = true;
+				//cout << "ALERT" << endl;
+				/*movingTowards = true;
 				Vector2<float> f = player2.getPosition();
-				float x = f.x + player2.getRadius();
-				float y = f.y + player2.getRadius();
+				float x = f.x;
+				float y = f.y;
 
 
 
 				float diffx = locX - x;
 				float diffy = locY - y;
 
-				float t = (diffx*diffx + diffy*diffy) / player2Power;
+				
+
+				float t = (diffx*diffx + diffy*diffy) / (float) player2Power;
+
+				cout << t << endl;
+				cout << diffx << endl;
+				cout << diffy << endl;
 
 				xs = (diffx*diffx)/t;
 				if (diffx < 0){
@@ -101,6 +131,21 @@ int main()
 					ys = -ys;
 				}
 
+				cout << "Mouse x :" << locX;
+				cout << "" << endl;
+				cout << "Mouse y :" << locY;
+				cout << "" << endl;
+
+				cout << "Object x :" << x;
+				cout << "" << endl;
+				cout << "Object y :" << y;
+				cout << "" << endl;
+
+				cout << "Speed x :" << xs;
+				cout << "" << endl;
+				cout << "Speed y :" << ys;
+				cout << "" << endl;*/
+
 			}
 		
 		}
@@ -109,12 +154,24 @@ int main()
 
 				xSpeed -= power;
 			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+
+				xSpeed -= power;
+			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
 
 				xSpeed += power;
 
 			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+
+				xSpeed += power;
+			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+
+				ySpeed -= power;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
 
 				ySpeed -= power;
 			}
@@ -122,7 +179,30 @@ int main()
 
 				ySpeed += power;
 			}
-			
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+
+				ySpeed += power;
+			}
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !bulletOnScreen){
+				Vector2<float> current = player.getPosition();
+				current.x = current.x + player.getRadius();
+				current.y = current.y + player.getRadius();
+				bullet.setPosition(current);
+				sf::Vector2i c = sf::Mouse::getPosition(window);
+				locX = (float)c.x;
+				locY = (float)c.y;
+
+				sf::Vector2f target(locX, locY);
+
+				Vector2<float> movement = (target - current);
+				movement = movement / length(movement);
+				movement.x = movement.x*bulletSpeed;
+				movement.y = movement.y*bulletSpeed;
+				xb = movement.x;
+				yb = movement.y;
+				bulletOnScreen = true;
+
+			}
 
 			if (xSpeed >= 0){
 				xSpeed -= friction;
@@ -151,7 +231,6 @@ int main()
 
 			if (xSpeed >= topSpeed){
 				xSpeed = topSpeed;
-				std::cout << "ALERT" << std::endl;
 			}
 			if (xSpeed <= -topSpeed){
 				xSpeed = -topSpeed;
@@ -169,12 +248,12 @@ int main()
 			if (movingTowards){
 				
 				Vector2<float> c = player2.getPosition();
-				double x2 = c.x + player2.getRadius();
-				double y2 = c.y + player2.getRadius();
-				if (x2 == locX || y2 == locY){
-					xs = 0;
-					ys = 0;
+				double r = player2.getRadius();
+				
+				if ((c.x+r<locX + 1 && c.x+r>locX - 1) && (c.y+r<locY + 1 && c.y+r>locY - 1)){
+					movingTowards = false;
 				}
+
 				//cout << diffx << endl;
 				//cout << diffy << endl;
 				//cout << "ALERT" << endl;
@@ -183,15 +262,40 @@ int main()
 				
 				
 			}
+			else{
+				xs = 0;
+				ys = 0;
+			}
+
+			if (bullet.getPosition().x + bullet.getRadius() > WIDTH || bullet.getPosition().x + bullet.getRadius() < 0){
+				bulletOnScreen = false;
+				xb = 0;
+				yb = 0;
+				
+			}
+			if (bullet.getPosition().y + bullet.getRadius() > HEIGHT || bullet.getPosition().y + bullet.getRadius() < 0){
+				bulletOnScreen = false;
+				xb = 0;
+				yb = 0;
+
+			}
 
 
 			player.move(xSpeed, ySpeed);
+			//player2.setPosition(locX, locY);
 			player2.move(xs, ys);
+
+			bullet.move(xb, yb);
 			//cout << movingTowards << endl;
 			
-
 			
+			
+
 			window.clear();
+			if (bulletOnScreen){
+				window.draw(bullet);
+				cout << "ALERT" << endl;
+			}
 			window.draw(player2);
 			window.draw(player);
 			window.display();
