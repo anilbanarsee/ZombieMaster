@@ -3,8 +3,10 @@
 #include <Windows.h>
 #include <cmath>
 #include "EntityObject.h"
+#include <vector>
  
 using sf::Vector2;
+using std::vector;
 using std::cout;
 using std::endl;
 
@@ -41,15 +43,18 @@ float length(Vector2<float> v1){
 int main()
 {
 
-	double player2Power = 0.5;
-	double bulletSpeed = 1.5;
+	double player2Power = 0.01;
+	double bulletSpeed = 0.05;
+
+	int bulletRate = 3000;
+	int bulletCounter = 0;
 
 	int WIDTH = 600;
 	int HEIGHT = 600;
 
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "ZombieMaster");
-	double power = 0.1;
-	double friction = 0.08;
+	double power = 0.0000005;
+	double friction = 0.0;
 
 	double topSpeed = 0.5;
 	double xSpeed = 0;
@@ -65,12 +70,14 @@ int main()
 	float xb = 0;
 	float yb = 0;
 
-	bool bulletOnScreen = false;
+
 	bool movingTowards = false;
 
 	sf::CircleShape player(10.f);
 	sf::CircleShape player2(10.f);
-	sf::CircleShape bullet(3.0f);
+	
+	vector<sf::CircleShape*> bullets;
+	vector<Vector2<float>> bulletMovement;
 
 	player2.setPosition(WIDTH / 2, HEIGHT / 2);
 	player.setPosition(300, 400);
@@ -184,11 +191,13 @@ int main()
 
 				ySpeed += power;
 			}
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !bulletOnScreen){
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)&&bulletCounter==0){
+				sf::CircleShape  *bullet = new sf::CircleShape(2.f);
+				
 				Vector2<float> current = player.getPosition();
 				current.x = current.x + player.getRadius();
 				current.y = current.y + player.getRadius();
-				bullet.setPosition(current);
+				(*bullet).setPosition(current);
 				sf::Vector2i c = sf::Mouse::getPosition(window);
 				locX = (float)c.x;
 				locY = (float)c.y;
@@ -199,10 +208,10 @@ int main()
 				movement = movement / length(movement);
 				movement.x = movement.x*bulletSpeed;
 				movement.y = movement.y*bulletSpeed;
-				xb = movement.x;
-				yb = movement.y;
-				bulletOnScreen = true;
-
+				bulletMovement.push_back(movement);
+			
+				bullets.push_back(bullet);
+				bulletCounter = bulletRate;
 			}
 
 			if (xSpeed >= 0){
@@ -243,6 +252,7 @@ int main()
 				ySpeed = -topSpeed;
 			}
 			
+			
 
 			
 
@@ -268,34 +278,61 @@ int main()
 				ys = 0;
 			}
 
-			if (bullet.getPosition().x + bullet.getRadius() > WIDTH || bullet.getPosition().x + bullet.getRadius() < 0){
-				bulletOnScreen = false;
-				xb = 0;
-				yb = 0;
-				
+		
+			Vector2<float> c = player.getPosition();
+			
+			double r = player.getRadius();
+
+			float px = c.x + r;
+			float py = c.y + r;
+
+			if (px >= WIDTH && xSpeed > 0){
+				xSpeed = 0;
 			}
-			if (bullet.getPosition().y + bullet.getRadius() > HEIGHT || bullet.getPosition().y + bullet.getRadius() < 0){
-				bulletOnScreen = false;
-				xb = 0;
-				yb = 0;
-
+			if (px <= 0 && xSpeed < 0){
+				xSpeed = 0;
 			}
 
-
+			if (py >= HEIGHT && ySpeed > 0){
+				ySpeed = 0;
+			}
+			if (py <= 0 && ySpeed < 0){
+				ySpeed = 0;
+			}
 			player.move(xSpeed, ySpeed);
 			//player2.setPosition(locX, locY);
 			player2.move(xs, ys);
 
-			bullet.move(xb, yb);
+			vector<sf::CircleShape*>::iterator it;
+			for (it = bullets.begin(); it != bullets.end();){
+				
+				if (((*it)->getPosition().x > WIDTH || (*it)->getPosition().x<0) || ((*it)->getPosition().y>HEIGHT || (*it)->getPosition().y < 0)){
+					delete * it;
+					it = bullets.erase(it);
+				}
+				else{
+					(*it)->move(0.05,0.05);
+					++it;
+				}
+				//sf::CircleShape tempBullet = (*bullets.at(i));
+				//if ((tempBullet.getPosition().x > WIDTH || tempBullet.getPosition().x<0) || (tempBullet.getPosition().y>HEIGHT || tempBullet.getPosition().y < 0)){
+					
+				//}
+				//
+				//cout << bulletMovement.at(i).x << endl;
+				//bullets.at(i).setPosition()
+			}
+			if (bulletCounter > 0){
+				bulletCounter--;
+			}
 			//cout << movingTowards << endl;
 			
-			
-			
+			//cout << bulletCounter << endl;
+			//cout << bullets.size() << endl;
 
 			window.clear();
-			if (bulletOnScreen){
-				window.draw(bullet);
-				cout << "ALERT" << endl;
+			for (int i = 0; i < bullets.size(); i++){
+				window.draw((*bullets.at(i)));
 			}
 			window.draw(player2);
 			window.draw(player);
