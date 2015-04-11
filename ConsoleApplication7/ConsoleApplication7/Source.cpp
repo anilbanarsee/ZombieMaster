@@ -42,6 +42,8 @@ float length(Vector2<float> v1){
 }
 int main()
 {
+	//Test EntityObject
+	EntityObject object(300, 300, "C:/Users/Hamzah/OneDrive/ZombieMaster/ConsoleApplication7/ConsoleApplication7/Data/test.png");
 
 	double player2Power = 0.01;
 	double bulletSpeed = 0.05;
@@ -338,7 +340,6 @@ int main()
 			window.draw(player);
 
 
-			EntityObject object(300, 300, "C:/Users/Hamzah/OneDrive/ZombieMaster/ConsoleApplication7/ConsoleApplication7/Data/test.png");
 			window.draw(object);
 
 
