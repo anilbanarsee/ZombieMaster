@@ -7,7 +7,6 @@ Projectile::Projectile(float posXIn, float posYIn, std::string spriteFileName, s
 {
 	setPosition(posXIn, posYIn);
 	spriteTexture.loadFromFile(spriteFileName);
-	setTexture(spriteTexture);
 	int length = 20;
 	int width = 4;
 	setTextureRect(sf::IntRect(0, 0, width, length));
