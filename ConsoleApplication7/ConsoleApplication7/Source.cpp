@@ -4,6 +4,7 @@
 #include <cmath>
 #include "Projectile.h"
 #include <vector>
+#include <cstdlib>
 
 using sf::Vector2;
 using sf::Vector2f;
@@ -13,6 +14,11 @@ using std::endl;
 
 #define PI 3.14159265
 
+double fRand(double fMin, double fMax)
+{
+	double f = (double)rand() / RAND_MAX;
+	return fMin + f * (fMax - fMin);
+}
 bool hit(Vector2f v1, Vector2f v2, double r1, double r2){
 
 
@@ -46,14 +52,14 @@ float length(Vector2f v1){
 int main()
 {
 
-	double player2Power = 0.01;
+	double player2Power = 0.3;
 	double bulletSpeed = 0.5;
-
-	int bulletRate = 100;
+	int numberOfBullets = 1;
+	int bulletRate = 10;
 	int bulletCounter = 0;
 
-	int WIDTH = 600;
-	int HEIGHT = 600;
+	int WIDTH = 1000;
+	int HEIGHT = 1000;
 
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "ZombieMaster");
 	double power = 0.005;
@@ -69,10 +75,13 @@ int main()
 	float xs = 0;
 	float ys = 0;
 
-
+	double spreadAmount = 0;
+	
 	float xb = 0;
 	float yb = 0;
 
+	int spreadCounter = 0;
+	int spreadCounterMax = 1;
 
 	bool movingTowards = false;
 
@@ -189,37 +198,62 @@ int main()
 
 			ySpeed += power;
 		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)&&spreadCounter==0){
+
+			if (spreadAmount >= 0){
+				spreadAmount-=0.1;
+			}
+			spreadCounter = spreadCounterMax;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)&&spreadCounter==0){
+
+			if (spreadAmount <= 360){
+				spreadAmount+=0.1;
+			}
+			spreadCounter = spreadCounterMax;
+		}
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && bulletCounter == 0){
 			
-	
-			Vector2f current = player.getPosition();
+			for (int i = 0; i < numberOfBullets; i++){
+				Vector2f current = player.getPosition();
+				
+				double spread = 0;
+				if (spreadAmount > 0){
+					spread = fRand(-spreadAmount / 2, spreadAmount / 2);
+				}
+				
+				//cout << spread << endl;
 
-			
-			
-
-			sf::Vector2i c = sf::Mouse::getPosition(window);
-			locX = (float)c.x;
-			locY = (float)c.y;
-
-			sf::Vector2f target(locX, locY);
-
-			Vector2f movement = (target - current);
-			movement = movement / length(movement);
-			movement.x = movement.x*bulletSpeed;
-			movement.y = movement.y*bulletSpeed;
-			
-		
-
-			
+				sf::Vector2i c = sf::Mouse::getPosition(window);
 
 
+				sf::Vector2f target(c.x, c.y);
 
-			//cout << sin(radians) * distance << "," << cos(radians)*distance << endl;
+				Vector2f movement = (target - current);
+				movement = movement / length(movement);
+				movement.x = movement.x*bulletSpeed;
+				movement.y = movement.y*bulletSpeed;
 
-			Projectile  *bullet = new Projectile(current.x, current.y, "test.png",movement);
+				double angle = (atan(movement.y / movement.x) * 180 / PI) + 90;
+				if (movement.x < 0){
+					angle += 180;
+				}
 
-			bullets.push_back(bullet);
-			bulletCounter = bulletRate;
+				angle += spread;
+				//cout << spread << endl;
+				double radians = angle*(PI / 180);
+				double hyp = sqrt(movement.y*movement.y + movement.x*movement.x);
+
+				movement.x = sin(radians)*hyp;
+				movement.y = -(cos(radians)*hyp);
+
+				//cout << sin(radians) * distance << "," << cos(radians)*distance << endl;
+
+				Projectile  *bullet = new Projectile(current.x, current.y, "test.png", movement);
+
+				bullets.push_back(bullet);
+				bulletCounter = bulletRate;
+			}
 		}
 
 		if (xSpeed >= 0){
@@ -333,6 +367,10 @@ int main()
 		if (bulletCounter > 0){
 			bulletCounter--;
 		}
+		if (spreadCounter > 0){
+			spreadCounter--;
+		}
+		//cout << spreadAmount << endl;
 		//cout << movingTowards << endl;
 
 		//cout << bulletCounter << endl;
