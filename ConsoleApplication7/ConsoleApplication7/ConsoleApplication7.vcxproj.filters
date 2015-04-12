@@ -27,15 +27,15 @@
     <ClCompile Include="EntityObject.cpp">
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="ImageFile.cpp">
+    <ClCompile Include="Projectile.cpp">
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ImageFile.h">
+    <ClInclude Include="EntityObject.h">
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
-    <ClInclude Include="EntityObject.h">
+    <ClInclude Include="Projectile.h">
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
   </ItemGroup>

@@ -45,6 +45,8 @@ float length(Vector2f v1){
 }
 int main()
 {
+	//Test EntityObject
+	EntityObject object(300, 300, "C:/Users/Hamzah/OneDrive/ZombieMaster/ConsoleApplication7/ConsoleApplication7/Data/test.png");
 
 	double player2Power = 0.01;
 	double bulletSpeed = 0.5;
@@ -338,6 +340,7 @@ int main()
 		//cout << bulletCounter << endl;
 		//cout << bullets.size() << endl;
 
+<<<<<<< HEAD
 		window.clear();
 		for (int i = 0; i < bullets.size(); i++){
 			window.draw((*bullets.at(i)));
@@ -348,6 +351,9 @@ int main()
 
 		
 		window.draw(object);
+=======
+			window.draw(object);
+>>>>>>> f87f1ada09dea1521773f7f7e650ae8b255fbd5e
 
 
 		window.display();

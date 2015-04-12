@@ -6,11 +6,12 @@
   It needs a position,image and collision data*/
 class EntityObject : public sf::Sprite
 {
-private:
+protected:
 	float posX;
 	float posY;
 	sf::Texture spriteTexture;
 public:
+	EntityObject();
 	EntityObject(float posX, float posY,std::string spriteFileName);
 	float getPosX(){ return posX; };
 	float getPosY(){ return posY; };
