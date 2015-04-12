@@ -5,9 +5,13 @@
 //Aka a player character
 class PlayerObject : EntityObject
 {
-private:
+protected:
 	PlayerController controller;
 public:
-	PlayerObject(int posX,int posY, std::string spriteFileName);
+	PlayerObject(int posX, int posY, std::string spriteFileName) : EntityObject(posX, posY, spriteFileName)
+	{
 
+	}
+	;
+	void getMovement();
 };
