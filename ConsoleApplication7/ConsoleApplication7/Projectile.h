@@ -7,7 +7,8 @@
 class Projectile : public EntityObject
 {
 public:
-	sf::Vector2f movement;
 	Projectile(float posX, float posY, std::string spriteFileName, sf::Vector2f);
+	sf::Vector2f movement;
+	sf::Vector2f point;
 	void incr();
 };
