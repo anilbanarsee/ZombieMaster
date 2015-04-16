@@ -80,9 +80,10 @@ int main()
 {
 
 	double player2Power = 0.3;
-	double bulletSpeed = 0.5;
+	double bulletSpeed = 0.75;
+
 	int numberOfBullets = 1;
-	int bulletRate = 10;
+	int bulletRate = 100;
 	int bulletCounter = 0;
 
 	int WIDTH = 1000;
@@ -110,7 +111,8 @@ int main()
 	
 	float xb = 0;
 	float yb = 0;
-
+	bool gravity = false;
+	bool antigravity = true;
 	int spreadCounter = 0;
 	int spreadCounterMax = 1;
 
@@ -459,6 +461,50 @@ int main()
 		bool gotHit = false;
 		vector<Projectile*>::iterator it;
 		for (it = bullets.begin(); it != bullets.end();){
+			if (gravity){
+				Vector2f current = (*it)->getPosition();
+
+			
+
+				sf::Vector2f target = player2.getPosition();
+
+
+				
+
+				Vector2f movement = (target - current);
+				
+				double length = sqrt((movement.x*movement.x) + (movement.y*movement.y));
+				//cout << length << endl;
+				
+				movement.x = ((movement.x/length)*(1/length))/1000;
+				movement.y = ((movement.y/length)*(1/length))/1000;
+
+				
+				//cout << movement.x << " , " << movement.y << endl;
+				(*it)->setMovement(((*it)->getMovement()) + movement);
+			}
+			else if (antigravity){
+				Vector2f current = (*it)->getPosition();
+
+
+
+				sf::Vector2f target = player2.getPosition();
+
+
+
+
+				Vector2f movement = (target - current);
+
+				double length = sqrt((movement.x*movement.x) + (movement.y*movement.y));
+				//cout << length << endl;
+
+				movement.x = ((movement.x / length)*(1 / length)) / 9.5;
+				movement.y = ((movement.y / length)*(1 / length)) / 9.5;
+
+
+				//cout << movement.x << " , " << movement.y << endl;
+				(*it)->setMovement(((*it)->getMovement()) - movement);
+			}
 			if (hit(player2.getPosition(), (*it)->getPosition(), player2.getRadius())){
 				delete * it;
 				it = bullets.erase(it);
@@ -538,6 +584,7 @@ int main()
 				bulletCounter = bulletRate;
 			}
 		}
+		
 		//cout << spreadAmount << endl;
 		//cout << movingTowards << endl;
 
