@@ -5,6 +5,7 @@
 #include "Projectile.h"
 #include <vector>
 #include <cstdlib>
+#include "PlayerObject.h"
 
 using sf::Vector2;
 using sf::Vector2f;
@@ -120,6 +121,11 @@ int main()
 
 	bool movingTowards = false;
 	bool movingTowards2 = false;
+
+	//Testing playerObject code
+	PlayerObject playerobject(300,200,"Data/test.png");
+	
+
 
 	sf::CircleShape player(10.f);
 	sf::CircleShape player2(10.f);
@@ -605,7 +611,9 @@ int main()
 		
 		window.draw(object);
 
-		
+		// Get movement for player then draw it
+		playerobject.getMovement();
+		window.draw(playerobject);
 
 
 

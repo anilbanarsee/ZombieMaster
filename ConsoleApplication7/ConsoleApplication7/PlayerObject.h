@@ -3,7 +3,7 @@
 #include "PlayerController.h"
 //This class represents a player Object
 //Aka a player character
-class PlayerObject : EntityObject
+class PlayerObject : public EntityObject
 {
 protected:
 	PlayerController controller;
