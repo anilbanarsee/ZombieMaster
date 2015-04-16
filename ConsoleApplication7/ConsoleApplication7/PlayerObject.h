@@ -8,10 +8,6 @@ class PlayerObject : EntityObject
 protected:
 	PlayerController controller;
 public:
-	PlayerObject(int posX, int posY, std::string spriteFileName) : EntityObject(posX, posY, spriteFileName)
-	{
-
-	}
-	;
+	PlayerObject(int posX, int posY, std::string spriteFileName);
 	void getMovement();
 };
