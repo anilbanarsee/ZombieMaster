@@ -3,14 +3,14 @@
 class PlayerController
 {
 private:
-	double speed;
-	double xSpeed = 0;
-	double ySpeed = 0;
-	double topSpeed = 0.5;
-	double friction = 0.0025;
+	float speed;
+	float xSpeed = 0;
+	float ySpeed = 0;
+	float topSpeed = 0.5f;
+	float friction = 0.0025f;
 public:
 	PlayerController();
-	PlayerController(double speedAmount);
+	PlayerController(float speedAmount);
 	void getMovement();
 	double getXSpeed();
 	double getYSpeed();

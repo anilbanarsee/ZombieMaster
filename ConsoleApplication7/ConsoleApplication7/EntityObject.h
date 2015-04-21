@@ -10,9 +10,11 @@ protected:
 	float posX;
 	float posY;
 	sf::Texture spriteTexture;
+	sf::RenderWindow window;
 public:
 	EntityObject();
-	EntityObject(float posX, float posY,std::string spriteFileName);
+	EntityObject(float posX, float posY, std::string spriteFileName);
+	void draw();
 	float getPosX(){ return posX; };
 	float getPosY(){ return posY; };
 };

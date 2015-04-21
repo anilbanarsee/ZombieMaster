@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntityObject.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -19,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EntityObject.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="Projectile.h" />

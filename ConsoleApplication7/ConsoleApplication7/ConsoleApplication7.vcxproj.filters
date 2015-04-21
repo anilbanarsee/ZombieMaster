@@ -19,6 +19,18 @@
     <Filter Include="Header Files\GameEngine">
       <UniqueIdentifier>{a690310f-c49d-4cbb-86c4-a2871c31ec7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Items">
+      <UniqueIdentifier>{05795ce0-0235-42fa-98bd-b8a5e15d4b6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Items">
+      <UniqueIdentifier>{9c0a5ee6-374d-4983-895f-d61881044b58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Player">
+      <UniqueIdentifier>{20030369-958c-4b69-a9d6-407dac45eafe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Player">
+      <UniqueIdentifier>{34503405-90e9-4b9e-a528-e0789bce54dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -30,11 +42,14 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerObject.cpp">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerController.cpp">
-      <Filter>Source Files\GameEngine</Filter>
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerObject.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -44,11 +59,14 @@
     <ClInclude Include="Projectile.h">
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
     <ClInclude Include="PlayerObject.h">
-      <Filter>Header Files\GameEngine</Filter>
+      <Filter>Header Files\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerController.h">
-      <Filter>Header Files\GameEngine</Filter>
+      <Filter>Header Files\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
